@@ -62,6 +62,7 @@ function LoginTitle() {
 function LoginForm(props) {
   const [id, setId] = useState("");
   const [passwd, setPasswd] = useState("");
+  const [didLoginFailed, setDidLoginFailed] = useState(false);
 
   const history = useHistory();
   const cookies = new Cookies();
@@ -98,11 +99,12 @@ function LoginForm(props) {
             `Login Succeed with Login Status : ${loginData.id} & ${loginData.password}`
           );
           history.push("/");
-        } else { 
+        } else {
           console.log(value);
           setId("");
           setPasswd("");
           alert("Login Failed");
+          setDidLoginFailed(true);
         }
       })
       .catch(console.log);
@@ -151,6 +153,9 @@ function LoginForm(props) {
             }}>
             아이디/비밀번호 찾기
           </span>
+          {!didLoginFailed ? null : (
+            <p style={{ color: "red" }}>Login Failed! Check your ID or PW!!</p>
+          )}
         </div>
       </form>
     </div>
