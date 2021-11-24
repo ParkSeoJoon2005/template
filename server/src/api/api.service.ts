@@ -27,7 +27,7 @@ export class ApiService {
       if(key.key === 1000) {
         resolve(true)
       } else {
-        throw Error("Key is not valid")
+        rejects("Key is not valid")
       }
     })
   }

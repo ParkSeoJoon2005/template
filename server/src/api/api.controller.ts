@@ -47,7 +47,7 @@ export class ApiController {
       return {
         status: true,
         userInfo: 'admin',
-        key : 1000
+        key: 1000,
       };
     } else {
       return {
@@ -57,7 +57,18 @@ export class ApiController {
   }
 
   @Post('/authUser')
-  getUserInfo(@Body() key: authByKeyDTO):object | void {
-    return this.apiService.authUser(key).then((data)=>{console.log(data);const resData = {key : key.key, userName : key.userName , isValid : true};return resData}).catch(err=>console.log(err))
+  getUserInfo(@Body() key: authByKeyDTO): object | void {
+    return this.apiService
+      .authUser(key)
+      .then((data) => {
+        console.log(data);
+        const resData = { key: key.key, userName: key.userName, isValid: true };
+        return resData;
+      })
+      .catch((err) => {
+        console.log(err);
+        const resData = { key: null, userName: null, isValid: false };
+        return resData;
+      });
   }
 }

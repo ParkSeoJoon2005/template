@@ -5,7 +5,7 @@ import { Link, useHistory } from "react-router-dom";
 import Cookies from "universal-cookie";
 
 import { connect } from "react-redux";
-import { setLogin, setLoginData } from "../redux/loginAction";
+import { setLogin, setLoginData, setLoginAuth } from "../redux/loginAction";
 
 import axios from "axios";
 
@@ -54,8 +54,7 @@ function Header() {
       }}
       position="fixed"
       margin="0px auto"
-      className="Header"
-    >
+      className="Header">
       <HeaderContainer />
     </Box>
   );
@@ -121,8 +120,7 @@ function LeftMenu(props) {
           alignItems: "center",
 
           marginLeft: "3rem",
-        }}
-      >
+        }}>
         <LeftMenuItems name={"Link1"} />
         <LeftMenuItems name={"Link2"} />
         <LeftMenuItems name={"Link3"} />
@@ -141,8 +139,7 @@ function LeftMenuItems(props) {
             fontWeight: "bold",
             fontSize: "150%",
             marginTop: "10px",
-          }}
-        >
+          }}>
           <Link
             to={`/${props.name}`}
             style={{ textDecoration: "none" }}
@@ -303,8 +300,7 @@ function MobileMenu(props) {
           <Box
             onClick={() => {
               toggleDrawerOpen();
-            }}
-          >
+            }}>
             <AiOutlineMenuFold />
           </Box>
         </IconContext.Provider>
@@ -328,6 +324,8 @@ function WebMenu(props) {
 
   const handleLogoutClick = () => {
     props.setIsLogin(false);
+    props.setLoginData(null);
+    props.setLoginAuth(false);
     cookies.remove("loginInfo");
   };
 
@@ -347,7 +345,7 @@ function WebMenu(props) {
   useEffect(() => {
     const loginCookieData = cookies.get("loginInfo");
     console.log(loginCookieData);
-    if (loginCookieData !== undefined) {
+    if (loginCookieData !== undefined || null) {
       setIsLogin(true);
       props.setIsLogin(true);
       props.setLoginData(loginCookieData);
@@ -355,11 +353,27 @@ function WebMenu(props) {
   }, []);
 
   useEffect(() => {
-    if (isLogin == true) {
+    // console.log(props);
+    if (isLogin === true && props.login.didLoginAuth !== true) {
       const loginInfo = cookies.get("loginInfo");
-      fetchAuthValid(loginInfo).then((value) => {
-        console.log(value);
-      });
+      fetchAuthValid(loginInfo)
+        .then((value) => {
+          console.log(value);
+          return value;
+        })
+        .then((value) => {
+          if (value.data.isValid !== true) {
+            props.setIsLogin(false);
+            props.setLoginData(null);
+            props.setLoginAuth(false);
+            console.warn("Login Key is not Valid!!");
+          } else {
+            props.setLoginAuth(true);
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     }
   }, [isLogin]);
 
@@ -399,8 +413,7 @@ function WebMenu(props) {
             color="primary"
             onClick={handleSubmit}
             disabled={text.length > 0 ? false : true}
-            type="submit"
-          >
+            type="submit">
             <SearchIcon />
           </IconButton>
         </form>
@@ -422,8 +435,7 @@ function WebMenu(props) {
             }}
             onMouseOver={(event) => {
               event.target.style.cursor = "pointer";
-            }}
-          >
+            }}>
             {isOver ? (
               <Badge color="secondary" variant="dot">
                 <NotificationsActiveIcon fontSize="large" />
@@ -446,8 +458,7 @@ function WebMenu(props) {
             }}
             onMouseOver={(event) => {
               event.target.style.cursor = "pointer";
-            }}
-          >
+            }}>
             {isOver ? (
               <NotificationsActiveIcon fontSize="large" />
             ) : (
@@ -490,8 +501,7 @@ function WebMenu(props) {
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}
           keepMounted
-          onClose={handleClose}
-        >
+          onClose={handleClose}>
           <DropDownItemWrapper path={"/profile"} text={"프로필"} />
           <DropDownItemWrapper path={"/account"} text={"내 계정"} />
           <DropDownItemWrapper path={"/logout"} text={"로그아웃"} />
@@ -531,8 +541,7 @@ function WebMenu(props) {
           borderRadius: "5px",
           backgroundColor: "white",
         }}
-        onClick={handleLoginClick}
-      >
+        onClick={handleLoginClick}>
         로그인/가입
       </Box>
     );
@@ -543,8 +552,7 @@ function WebMenu(props) {
       display="flex"
       flexDirection="row"
       justifyContent="space-evenly"
-      alignItems="center"
-    >
+      alignItems="center">
       {/* 검색창 */}
       <Box marginRight="10px" padding="10px">
         <SearchBox />
@@ -573,6 +581,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     setLoginData: (data) => {
       dispatch(setLoginData(data));
+    },
+    setLoginAuth: (bool) => {
+      dispatch(setLoginAuth(bool));
     },
   };
 };

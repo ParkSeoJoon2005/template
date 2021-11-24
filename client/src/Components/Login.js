@@ -53,8 +53,7 @@ function LoginTitle() {
       onClick={handleLogoClick}
       onMouseOver={(e) => {
         e.target.style.cursor = "pointer";
-      }}
-    >
+      }}>
       LOGO
     </h1>
   );
@@ -92,14 +91,14 @@ function LoginForm(props) {
             key: value.data.key,
           };
           cookies.set("loginInfo", JSON.stringify(cookieData), { path: "/" });
-          console.log(props);
+          console.log(cookieData);
           props.setIsLogin(true);
           props.setLoginData(value.data);
           console.log(
-            `Login Succeed with Login Status : ${props.login.isLogin} & ${props.login.loginData}`
+            `Login Succeed with Login Status : ${loginData.id} & ${loginData.password}`
           );
           history.push("/");
-        } else {
+        } else { 
           console.log(value);
           setId("");
           setPasswd("");
@@ -142,16 +141,14 @@ function LoginForm(props) {
             style={{ marginRight: "10px" }}
             onClick={(e) => {
               history.push("/register");
-            }}
-          >
+            }}>
             회원가입
           </span>
           <span
             style={{ marginRight: "10px" }}
             onClick={(e) => {
               history.push("/accountSearch");
-            }}
-          >
+            }}>
             아이디/비밀번호 찾기
           </span>
         </div>
