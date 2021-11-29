@@ -2,7 +2,6 @@ const express = require("express");
 const router = express();
 const cors = require("cors");
 const db = require("../../db");
-const { resume } = require("../../db");
 
 //JSON 형상화
 router.use(express.json());
@@ -69,6 +68,11 @@ router.post("/login", (req, res) => {
       }
     }
   );
+});
+
+//계정 생성 처리
+router.post("/register", (req, res) => {
+  console.log(req.body);
 });
 
 router.get("/test", (req, res) => {
