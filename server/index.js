@@ -1,17 +1,18 @@
 const express = require("express");
+const app = express();
+
+require("dotenv").config();
+const port = process.env.SERVER_PORT || 8080;
+
+//CORS 모듈 임포트
 const cors = require("cors");
 
-const app = express();
-const port = process.env.PORT || 8080;
-
+//커스텀 Authentication 모듈 임포트
 const authRouter = require("./router/auth/auth");
 
-app.use("/", authRouter);
-app.use(
-  cors({
-    origin: "*",
-  })
-);
+app.use("/api", authRouter);
+
+app.use(cors());
 
 app.get("/", (req, res) => {
   responseData = {

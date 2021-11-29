@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Cookies from "universal-cookie";
 
 import { connect } from "react-redux";
@@ -103,7 +103,7 @@ function LoginForm(props) {
           console.log(value);
           setId("");
           setPasswd("");
-          alert("Login Failed");
+          // alert("Login Failed");
           setDidLoginFailed(true);
         }
       })
@@ -139,22 +139,20 @@ function LoginForm(props) {
           LOGIN
         </button>
         <div style={(inputStyle, { display: "space-between" })}>
-          <span
-            style={{ marginRight: "10px" }}
-            onClick={(e) => {
-              history.push("/register");
-            }}>
+          <Link
+            style={{ marginRight: "10px", textDecoration: "none" }}
+            to={"/register"}>
             회원가입
-          </span>
-          <span
-            style={{ marginRight: "10px" }}
-            onClick={(e) => {
-              history.push("/accountSearch");
-            }}>
+          </Link>
+          <Link
+            style={{ marginRight: "10px", textDecoration: "none" }}
+            to={"/accountSearch"}>
             아이디/비밀번호 찾기
-          </span>
+          </Link>
           {!didLoginFailed ? null : (
-            <p style={{ color: "red" }}>Login Failed! Check your ID or PW!!</p>
+            <p style={{ color: "red", fontWeight: "bold" }}>
+              Login Failed! Check your ID or PW!!
+            </p>
           )}
         </div>
       </form>

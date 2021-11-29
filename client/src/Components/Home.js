@@ -23,11 +23,15 @@ function Home(props) {
     const ipData = {
       ip: ip,
     };
-    const response = await axios.post("http://localhost:8080/ipAuth", ipData, {
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-      },
-    });
+    const response = await axios.post(
+      "http://localhost:8080/api/ipAuth",
+      ipData,
+      {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
+      }
+    );
     if (response.data !== null) {
       return response;
     } else {
