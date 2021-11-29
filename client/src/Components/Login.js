@@ -10,9 +10,6 @@ import Contents from "../ui/Contents";
 import { setLoginData, setLogin } from "../redux/loginAction";
 
 function Login(props) {
-  useEffect(() => {
-    console.log(props);
-  }, []);
   return (
     <>
       <Contents elements={<LoginWrapper />} />

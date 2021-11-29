@@ -1,6 +1,8 @@
 import { Switch, Route } from "react-router-dom";
 
+//Page Load
 import Login from "../../Components/Login";
+import Register from "../../Components/Register";
 
 const UserPages = () => {
   return (
@@ -8,7 +10,9 @@ const UserPages = () => {
       <Route path="/login">
         <Login />
       </Route>
-      <Route path="/register"></Route>
+      <Route path="/register">
+        <Register />
+      </Route>
     </Switch>
   );
 };
