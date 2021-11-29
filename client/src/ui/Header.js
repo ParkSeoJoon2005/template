@@ -141,7 +141,7 @@ function LeftMenuItems(props) {
             marginTop: "10px",
           }}>
           <Link
-            to={`/${props.name}`}
+            to={`/${props.name.toLowerCase()}`}
             style={{ textDecoration: "none" }}
             onMouseOver={(e) => {
               e.target.style.cursor = "cursor";

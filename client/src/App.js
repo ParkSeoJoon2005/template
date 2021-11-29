@@ -1,10 +1,5 @@
 import Header from "./ui/Header";
-import { Route, Switch } from "react-router-dom";
-
-// Page Import
-import Home from "./Components/Home";
-import Test from "./Components/Test";
-import Login from "./Components/Login";
+import Routers from "./Routers/Route";
 
 function App() {
   return (
@@ -12,25 +7,10 @@ function App() {
       <div style={AppStyle}>
         {/* 헤더 영역 */}
         <Header />
-        {/* -------------------------------------- */}
 
         {/* 컨텐츠 영역 */}
         {/* 컨텐츠 영역을 라우터로 분리 */}
-
-        <Switch>
-          <Route path="/" exact={true}>
-            <Home />
-          </Route>
-          <Route path="/link3">
-            <Test />
-          </Route>
-          <Route path="/login">
-            <Login />
-          </Route>
-        </Switch>
-
-        {/* -------------------------------------- */}
-        {/* -------------------------------------- */}
+        <Routers />
       </div>
     </>
   );
