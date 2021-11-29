@@ -73,6 +73,39 @@ router.post("/login", (req, res) => {
 //계정 생성 처리
 router.post("/register", (req, res) => {
   console.log(req.body);
+  db.query(
+    `SELECT * FROM user WHERE id='${req.body.id}' OR pw='${req.body.password}' OR name='${req.body.name}'`,
+    (err, results) => {
+      if (err) throw err;
+      if (results.length > 0) {
+        const createUserFailed = {
+          status: false,
+          msg: "Creating User Account Failed",
+        };
+        res.json(createUserFailed);
+      } else {
+        db.query(
+          `INSERT INTO user (id,pw,birthDay,phone,email,name) VALUES ('${req.body.id}','${req.body.password}','${req.body.birthDay}','${req.body.phone}','${req.body.email}','${req.body.name}')`,
+          (err, results) => {
+            if (err) throw err;
+            if (results.length === 1) {
+              const createUserSucceed = {
+                status: true,
+                msg: "Creating User Account Succeed",
+              };
+              res.json(createUserSucceed);
+            } else {
+              const createUserFailed = {
+                status: false,
+                msg: "Creating User Account Failed",
+              };
+              res.json(createUserFailed);
+            }
+          }
+        );
+      }
+    }
+  );
 });
 
 router.get("/test", (req, res) => {
