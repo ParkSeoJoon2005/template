@@ -87,20 +87,13 @@ router.post("/register", (req, res) => {
         db.query(
           `INSERT INTO user (id,pw,birthDay,phone,email,name) VALUES ('${req.body.id}','${req.body.password}','${req.body.birthDay}','${req.body.phone}','${req.body.email}','${req.body.name}')`,
           (err, results) => {
+            console.log(results);
             if (err) throw err;
-            if (results.length === 1) {
-              const createUserSucceed = {
-                status: true,
-                msg: "Creating User Account Succeed",
-              };
-              res.json(createUserSucceed);
-            } else {
-              const createUserFailed = {
-                status: false,
-                msg: "Creating User Account Failed",
-              };
-              res.json(createUserFailed);
-            }
+            const createUserSucceed = {
+              status: true,
+              msg: "Creating User Account Succeed",
+            };
+            res.json(createUserSucceed);
           }
         );
       }

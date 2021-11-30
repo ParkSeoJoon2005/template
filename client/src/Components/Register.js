@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 import Contents from "../ui/Contents";
 
@@ -35,7 +36,9 @@ const RegisterForm = (props) => {
   const [email, setEmail] = useState(undefined);
   const [name, setName] = useState(undefined);
 
-  const [msg, setMsg] = useState(undefined);
+  const [msg, setMsg] = useState(null);
+
+  const history = useHistory();
 
   const fetchRegisterData = async (data) => {
     const response = await axios.post(
@@ -73,6 +76,14 @@ const RegisterForm = (props) => {
         fetchRegisterData(data)
           .then((data) => {
             console.log(data);
+            if (data.data.status) {
+              alert("Creating Account Succeed!!");
+              setMsg(null);
+              history.push("/login");
+            } else {
+              setMsg(data.data.msg);
+              return;
+            }
           })
           .catch((err) => console.log(err));
       } else {
@@ -141,6 +152,9 @@ const RegisterForm = (props) => {
           SUBMIT
         </button>
       </form>
+      {msg !== null ? (
+        <p style={{ color: "red", fontWeight: "bold" }}>{msg}</p>
+      ) : null}
     </>
   );
 };
