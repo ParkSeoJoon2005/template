@@ -74,7 +74,7 @@ router.post("/login", (req, res) => {
 router.post("/register", (req, res) => {
   console.log(req.body);
   db.query(
-    `SELECT * FROM user WHERE id='${req.body.id}' OR pw='${req.body.password}' OR name='${req.body.name}'`,
+    `SELECT * FROM user WHERE id='${req.body.id}' OR name='${req.body.name}'`,
     (err, results) => {
       if (err) throw err;
       if (results.length > 0) {

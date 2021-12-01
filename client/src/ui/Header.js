@@ -54,7 +54,8 @@ function Header() {
       }}
       position="fixed"
       margin="0px auto"
-      className="Header">
+      className="Header"
+    >
       <HeaderContainer />
     </Box>
   );
@@ -120,7 +121,8 @@ function LeftMenu(props) {
           alignItems: "center",
 
           marginLeft: "3rem",
-        }}>
+        }}
+      >
         <LeftMenuItems name={"Link1"} />
         <LeftMenuItems name={"Link2"} />
         <LeftMenuItems name={"Link3"} />
@@ -139,7 +141,8 @@ function LeftMenuItems(props) {
             fontWeight: "bold",
             fontSize: "150%",
             marginTop: "10px",
-          }}>
+          }}
+        >
           <Link
             to={`/${props.name.toLowerCase()}`}
             style={{ textDecoration: "none" }}
@@ -195,7 +198,7 @@ function MobileMenu(props) {
 
   useEffect(() => {
     const loginCookieData = cookies.get("loginInfo");
-    console.log(loginCookieData);
+    console.log(`Cookie Data : ${loginCookieData}`);
     if (loginCookieData !== undefined) {
       setIsLogin(true);
       props.setIsLogin(true);
@@ -205,7 +208,6 @@ function MobileMenu(props) {
 
   useEffect(() => {
     setIsLogin(props.login.isLogin);
-    console.log(props.login.isLogin);
   }, [props.login.isLogin]);
 
   function toggleDrawerClose() {
@@ -249,11 +251,19 @@ function MobileMenu(props) {
 
     //Return List by login status
     function DrawerByLogin() {
+      const cookieData = cookies.get("loginInfo");
+      const getUserFirstName = cookieData
+        ? cookieData.userInfo.name[0].toUpperCase()
+        : null;
       return isLogin ? (
         <Box>
           <List>
             <ListItemObject
-              listIcon={<Avatar variant="rounded">J</Avatar>}
+              listIcon={
+                <Avatar variant="rounded">
+                  {getUserFirstName !== null ? getUserFirstName : null}
+                </Avatar>
+              }
               listText="프로필"
               path={"profile"}
             />
@@ -300,7 +310,8 @@ function MobileMenu(props) {
           <Box
             onClick={() => {
               toggleDrawerOpen();
-            }}>
+            }}
+          >
             <AiOutlineMenuFold />
           </Box>
         </IconContext.Provider>
@@ -344,7 +355,7 @@ function WebMenu(props) {
 
   useEffect(() => {
     const loginCookieData = cookies.get("loginInfo");
-    console.log(loginCookieData);
+    console.log(`Cookie Data : ${loginCookieData}`);
     if (loginCookieData !== undefined || null) {
       setIsLogin(true);
       props.setIsLogin(true);
@@ -358,7 +369,7 @@ function WebMenu(props) {
       const loginInfo = cookies.get("loginInfo");
       fetchAuthValid(loginInfo)
         .then((value) => {
-          console.log(value);
+          console.log(`Check Auth Vaild : ${value}`);
           return value;
         })
         .then((value) => {
@@ -379,7 +390,6 @@ function WebMenu(props) {
 
   useEffect(() => {
     setIsLogin(props.login.isLogin);
-    console.log(props.login.isLogin);
   }, [props.login.isLogin]);
 
   // 추후 로그인 여부 확인한 다음 isLogin 로직 수정 필요
@@ -413,7 +423,8 @@ function WebMenu(props) {
             color="primary"
             onClick={handleSubmit}
             disabled={text.length > 0 ? false : true}
-            type="submit">
+            type="submit"
+          >
             <SearchIcon />
           </IconButton>
         </form>
@@ -435,7 +446,8 @@ function WebMenu(props) {
             }}
             onMouseOver={(event) => {
               event.target.style.cursor = "pointer";
-            }}>
+            }}
+          >
             {isOver ? (
               <Badge color="secondary" variant="dot">
                 <NotificationsActiveIcon fontSize="large" />
@@ -458,7 +470,8 @@ function WebMenu(props) {
             }}
             onMouseOver={(event) => {
               event.target.style.cursor = "pointer";
-            }}>
+            }}
+          >
             {isOver ? (
               <NotificationsActiveIcon fontSize="large" />
             ) : (
@@ -473,6 +486,11 @@ function WebMenu(props) {
 
   function Profile(props) {
     const [anchorEl, setAnchorEl] = useState(null);
+
+    const cookieData = cookies.get("loginInfo");
+    const getUserFirstName = cookieData
+      ? cookieData.userInfo.name[0].toUpperCase()
+      : null;
     function handleClick(event) {
       setAnchorEl(event.currentTarget);
     }
@@ -501,13 +519,16 @@ function WebMenu(props) {
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}
           keepMounted
-          onClose={handleClose}>
+          onClose={handleClose}
+        >
           <DropDownItemWrapper path={"/profile"} text={"프로필"} />
           <DropDownItemWrapper path={"/account"} text={"내 계정"} />
           <DropDownItemWrapper path={"/logout"} text={"로그아웃"} />
         </DropDown>
         <Box onClick={handleClick}>
-          <Avatar variant="rounded">J</Avatar>
+          <Avatar variant="rounded">
+            {getUserFirstName !== null ? getUserFirstName : null}
+          </Avatar>
         </Box>
       </>
     );
@@ -541,7 +562,8 @@ function WebMenu(props) {
           borderRadius: "5px",
           backgroundColor: "white",
         }}
-        onClick={handleLoginClick}>
+        onClick={handleLoginClick}
+      >
         로그인/가입
       </Box>
     );
@@ -552,7 +574,8 @@ function WebMenu(props) {
       display="flex"
       flexDirection="row"
       justifyContent="space-evenly"
-      alignItems="center">
+      alignItems="center"
+    >
       {/* 검색창 */}
       <Box marginRight="10px" padding="10px">
         <SearchBox />
