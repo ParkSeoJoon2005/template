@@ -101,8 +101,24 @@ router.post("/register", (req, res) => {
   );
 });
 
-router.get("/test", (req, res) => {
-  db.query(`SELECT * FROM USER`, (err, results) => {
+router.post("/accountInfo", (req, res) => {
+  db.query(`SELECT * FROM user WHERE no=${req.body.key}`, (err, results) => {
+    if (err) throw err;
+    const accountInfoRes = {
+      id: results[0].id,
+      pw: results[0].pw,
+      birthDay: results[0].birthDay,
+      phone: results[0].phone,
+      email: results[0].email,
+      name: results[0].name,
+    };
+    res.json(accountInfoRes);
+  });
+});
+
+router.post("/test", (req, res) => {
+  console.log(req.body);
+  db.query(`SELECT * FROM user WHERE no=${req.body.no}`, (err, results) => {
     if (err) throw err;
     console.log(results);
   });

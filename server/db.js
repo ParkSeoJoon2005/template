@@ -1,5 +1,4 @@
 const mysql = require("mysql");
-const { connect } = require("./router/auth/auth");
 require("dotenv").config();
 const conn = mysql.createConnection({
   host: process.env.DB_HOST_IP,
