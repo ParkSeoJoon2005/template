@@ -1,6 +1,10 @@
 const express = require("express");
 const app = express();
 
+const server = require("http").createServer(app);
+
+const io = require("socket.io")(server);
+
 require("dotenv").config();
 const port = process.env.SERVER_PORT || 8080;
 
@@ -21,6 +25,6 @@ app.get("/", (req, res) => {
   res.json(responseData);
 });
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`server is listening at localhost:${port}`);
 });
