@@ -3,7 +3,12 @@ const app = express();
 
 const server = require("http").createServer(app);
 
-const io = require("socket.io")(server);
+const io = require("socket.io")(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
+});
 
 require("dotenv").config();
 const port = process.env.SERVER_PORT || 8080;
@@ -23,6 +28,13 @@ app.get("/", (req, res) => {
     msg: "bye",
   };
   res.json(responseData);
+});
+
+io.on("connection", (sockets) => {
+  console.log("Connected!");
+  sockets.on("hi", (payload) => {
+    console.log(payload);
+  });
 });
 
 server.listen(port, () => {

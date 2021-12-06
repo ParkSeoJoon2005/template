@@ -1,9 +1,9 @@
 import { Switch, Route } from "react-router-dom";
 
 //Page Load
-import Login from "../../Components/Login";
-import Register from "../../Components/Register";
-import AccountInfo from "../../Components/AccountInfo";
+import Login from "../../Pages/AccountPages/Login";
+import Register from "../../Pages/AccountPages/Register";
+import AccountInfo from "../../Pages/AccountPages/AccountInfo";
 
 const UserPages = () => {
   return (
