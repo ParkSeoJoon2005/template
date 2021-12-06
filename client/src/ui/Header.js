@@ -198,7 +198,7 @@ function MobileMenu(props) {
 
   useEffect(() => {
     const loginCookieData = cookies.get("loginInfo");
-    console.log(`Cookie Data : ${loginCookieData}`);
+    console.log(`Cookie Data : ${JSON.stringify(loginCookieData)}`);
     if (loginCookieData !== undefined) {
       setIsLogin(true);
       props.setIsLogin(true);
