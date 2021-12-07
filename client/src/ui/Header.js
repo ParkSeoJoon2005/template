@@ -54,8 +54,7 @@ function Header() {
       }}
       position="fixed"
       margin="0px auto"
-      className="Header"
-    >
+      className="Header">
       <HeaderContainer />
     </Box>
   );
@@ -121,9 +120,8 @@ function LeftMenu(props) {
           alignItems: "center",
 
           marginLeft: "3rem",
-        }}
-      >
-        <LeftMenuItems name={"Link1"} />
+        }}>
+        <LeftMenuItems name={"CHAT"} />
         <LeftMenuItems name={"Link2"} />
         <LeftMenuItems name={"Link3"} />
       </div>
@@ -141,8 +139,7 @@ function LeftMenuItems(props) {
             fontWeight: "bold",
             fontSize: "150%",
             marginTop: "10px",
-          }}
-        >
+          }}>
           <Link
             to={`/${props.name.toLowerCase()}`}
             style={{ textDecoration: "none" }}
@@ -267,7 +264,7 @@ function MobileMenu(props) {
               listText="프로필"
               path={"profile"}
             />
-            <ListItemObject listIcon={null} listText="Link1" path={"link1"} />
+            <ListItemObject listIcon={null} listText="CHAT" path={"chat"} />
             <ListItemObject listIcon={null} listText="Link2" path={"link2"} />
             <ListItemObject listIcon={null} listText="Link3" path={"link3"} />
             <ListItemObject
@@ -281,7 +278,7 @@ function MobileMenu(props) {
       ) : (
         <Box>
           <List>
-            <ListItemObject listText="Link1" path={"link1"} menu />
+            <ListItemObject listText="CHAT" path={"chat"} menu />
             <ListItemObject listText="Link2" path={"Link2"} menu />
             <ListItemObject listText="Link3" path={"link3"} menu />
             <ListItemObject
@@ -310,8 +307,7 @@ function MobileMenu(props) {
           <Box
             onClick={() => {
               toggleDrawerOpen();
-            }}
-          >
+            }}>
             <AiOutlineMenuFold />
           </Box>
         </IconContext.Provider>
@@ -423,8 +419,7 @@ function WebMenu(props) {
             color="primary"
             onClick={handleSubmit}
             disabled={text.length > 0 ? false : true}
-            type="submit"
-          >
+            type="submit">
             <SearchIcon />
           </IconButton>
         </form>
@@ -446,8 +441,7 @@ function WebMenu(props) {
             }}
             onMouseOver={(event) => {
               event.target.style.cursor = "pointer";
-            }}
-          >
+            }}>
             {isOver ? (
               <Badge color="secondary" variant="dot">
                 <NotificationsActiveIcon fontSize="large" />
@@ -470,8 +464,7 @@ function WebMenu(props) {
             }}
             onMouseOver={(event) => {
               event.target.style.cursor = "pointer";
-            }}
-          >
+            }}>
             {isOver ? (
               <NotificationsActiveIcon fontSize="large" />
             ) : (
@@ -519,8 +512,7 @@ function WebMenu(props) {
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}
           keepMounted
-          onClose={handleClose}
-        >
+          onClose={handleClose}>
           <DropDownItemWrapper path={"/profile"} text={"프로필"} />
           <DropDownItemWrapper path={"/account"} text={"내 계정"} />
           <DropDownItemWrapper path={"/logout"} text={"로그아웃"} />
@@ -562,8 +554,7 @@ function WebMenu(props) {
           borderRadius: "5px",
           backgroundColor: "white",
         }}
-        onClick={handleLoginClick}
-      >
+        onClick={handleLoginClick}>
         로그인/가입
       </Box>
     );
@@ -574,8 +565,7 @@ function WebMenu(props) {
       display="flex"
       flexDirection="row"
       justifyContent="space-evenly"
-      alignItems="center"
-    >
+      alignItems="center">
       {/* 검색창 */}
       <Box marginRight="10px" padding="10px">
         <SearchBox />

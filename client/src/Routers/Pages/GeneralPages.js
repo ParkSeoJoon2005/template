@@ -10,7 +10,7 @@ const GeneralPages = () => {
       <Route path="/" exact={true}>
         <Home />
       </Route>
-      <Route path="/link1">
+      <Route path="/chat">
         <Chat />
       </Route>
       <Route path="/link3">

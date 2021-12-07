@@ -10,16 +10,20 @@ const io = require("socket.io")(server, {
   },
 });
 
+const db = require("./db");
+
 require("dotenv").config();
 const port = process.env.SERVER_PORT || 8080;
 
 //CORS 모듈 임포트
 const cors = require("cors");
 
-//커스텀 Authentication 모듈 임포트
+//커스텀 모듈 Authentication 임포트
 const authRouter = require("./router/auth/auth");
+const chatRouter = require("./router/chat/chat");
 
 app.use("/api", authRouter);
+app.use("/chat", chatRouter);
 
 app.use(cors());
 
@@ -32,8 +36,10 @@ app.get("/", (req, res) => {
 
 io.on("connection", (sockets) => {
   console.log("Connected!");
-  sockets.on("hi", (payload) => {
-    console.log(payload);
+  console.log(sockets.id);
+  sockets.on("roomJoin", (payload) => {
+    sockets.join(payload.data.R_Number);
+    io.emit("alert", { msg: "Someone Joined!!" });
   });
 });
 
