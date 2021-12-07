@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 
-import Contents from "../ui/Contents";
+import Contents from "../../ui/Contents";
 
 const Register = () => {
   return <Contents elements={<RegisterWrapper />} />;
@@ -148,7 +148,8 @@ const RegisterForm = (props) => {
         <button
           type="submit"
           onClick={handleSubmit}
-          style={{ width: "30%", height: "50px" }}>
+          style={{ width: "30%", height: "50px" }}
+        >
           SUBMIT
         </button>
       </form>

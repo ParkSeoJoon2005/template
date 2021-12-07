@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "universal-cookie";
 
-import Contents from "../ui/Contents";
+import Contents from "../../ui/Contents";
 
 const AccountInfo = () => {
   return <Contents elements={<AccountInfoWrapper />} />;

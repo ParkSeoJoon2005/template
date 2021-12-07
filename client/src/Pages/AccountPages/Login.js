@@ -5,9 +5,9 @@ import Cookies from "universal-cookie";
 
 import { connect } from "react-redux";
 
-import Contents from "../ui/Contents";
+import Contents from "../../ui/Contents";
 
-import { setLoginData, setLogin } from "../redux/loginAction";
+import { setLoginData, setLogin } from "../../redux/loginAction";
 
 function Login(props) {
   return (
@@ -50,7 +50,8 @@ function LoginTitle() {
       onClick={handleLogoClick}
       onMouseOver={(e) => {
         e.target.style.cursor = "pointer";
-      }}>
+      }}
+    >
       LOGO
     </h1>
   );
@@ -138,12 +139,14 @@ function LoginForm(props) {
         <div style={(inputStyle, { display: "space-between" })}>
           <Link
             style={{ marginRight: "10px", textDecoration: "none" }}
-            to={"/register"}>
+            to={"/register"}
+          >
             회원가입
           </Link>
           <Link
             style={{ marginRight: "10px", textDecoration: "none" }}
-            to={"/accountSearch"}>
+            to={"/accountSearch"}
+          >
             아이디/비밀번호 찾기
           </Link>
           {!didLoginFailed ? null : (
