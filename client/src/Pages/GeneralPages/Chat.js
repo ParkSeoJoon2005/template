@@ -23,7 +23,7 @@ function Chat() {
 }
 
 const ChatRoomWrapper = (props) => {
-  const [chats, setChats] = useState([]);
+  const [chat, setChat] = useState([]);
 
   const [text, setText] = useState("");
 
@@ -40,6 +40,10 @@ const ChatRoomWrapper = (props) => {
       data,
       text,
     });
+    const chats = [...chat, text];
+    console.log(chats);
+    setChat(chats);
+    setText("");
   };
 
   useEffect(() => {
@@ -50,18 +54,21 @@ const ChatRoomWrapper = (props) => {
 
   useEffect(() => {
     socket.on("recieve", (data) => {
-      setChats([...chats, data.text]);
+      console.log(data);
+      setChat((a) => [...a, data.text]);
     });
-
-    console.log(chats);
-  });
+  }, []);
   return (
     <div style={ChatRoomWrapperStyle}>
       <form onSubmit={handleSubmit}>
         <h1>{data.R_Name}</h1>
         <h3 style={{ margin: 0 }}>Author : {data.Author}</h3>
-        <div>{chats}</div>
-        <input type="text" onChange={handleInputChange}></input>
+        <div>
+          {chat.map((value) => {
+            return <p>{value}</p>;
+          })}
+        </div>
+        <input type="text" onChange={handleInputChange} value={text}></input>
         <button type="submit">SEND</button>
       </form>
     </div>
