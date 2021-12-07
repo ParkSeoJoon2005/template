@@ -142,7 +142,7 @@ function LeftMenuItems(props) {
           }}>
           <Link
             to={`/${props.name.toLowerCase()}`}
-            style={{ textDecoration: "none" }}
+            style={{ textDecoration: "none", color: "none" }}
             onMouseOver={(e) => {
               e.target.style.cursor = "cursor";
               e.target.style.textDecoration = "none";
@@ -264,7 +264,7 @@ function MobileMenu(props) {
               listText="프로필"
               path={"profile"}
             />
-            <ListItemObject listIcon={null} listText="CHAT" path={"chat"} />
+            <ListItemObject listIcon={null} listText="CHAT" path={"chatRoom"} />
             <ListItemObject listIcon={null} listText="Link2" path={"link2"} />
             <ListItemObject listIcon={null} listText="Link3" path={"link3"} />
             <ListItemObject
@@ -278,7 +278,7 @@ function MobileMenu(props) {
       ) : (
         <Box>
           <List>
-            <ListItemObject listText="CHAT" path={"chat"} menu />
+            <ListItemObject listText="CHAT" path={"chatRoom"} menu />
             <ListItemObject listText="Link2" path={"Link2"} menu />
             <ListItemObject listText="Link3" path={"link3"} menu />
             <ListItemObject

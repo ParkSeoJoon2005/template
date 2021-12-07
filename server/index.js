@@ -36,10 +36,14 @@ app.get("/", (req, res) => {
 
 io.on("connection", (sockets) => {
   console.log("Connected!");
-  console.log(sockets.id);
   sockets.on("roomJoin", (payload) => {
+    console.log(payload);
     sockets.join(payload.data.R_Number);
     io.emit("alert", { msg: "Someone Joined!!" });
+  });
+  sockets.on("send", (payload) => {
+    console.log(payload);
+    io.emit("recieve", { text: payload.text });
   });
 });
 

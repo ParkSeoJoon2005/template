@@ -1,125 +1,82 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-
 import Contents from "../../ui/Contents";
 
+import { useLocation, useHistory } from "react-router-dom";
+
 import Cookies from "universal-cookie";
-import { useHistory } from "react-router-dom";
 
 import { io } from "socket.io-client";
+const socket = io("http://localhost:8080");
 
-const Chat = (props) => {
+function Chat() {
   const cookies = new Cookies();
   const cookieData = cookies.get("loginInfo");
 
   const history = useHistory();
   if (cookieData) {
-    return <Contents elements={<ChatWrapper />} />;
+    return <Contents elements={<ChatRoomWrapper />} />;
   } else {
     history.push("/login");
     alert("Chat is only available when you login!");
     return null;
   }
-};
+}
 
-const ChatWrapper = (props) => {
-  const [didFetch, setDidFetch] = useState(false);
-  const [rooms, setRooms] = useState([]);
+const ChatRoomWrapper = (props) => {
+  const [chats, setChats] = useState([]);
 
-  const cookies = new Cookies();
-  const { userInfo, key } = cookies.get("loginInfo");
+  const [text, setText] = useState("");
 
-  const fetchRooms = async () => {
-    const res = await axios.get("http://localhost:8080/chat");
-    return res;
+  const location = useLocation();
+  const data = location.state.data;
+
+  const handleInputChange = (e) => {
+    setText(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    socket.emit("send", {
+      data,
+      text,
+    });
   };
 
   useEffect(() => {
-    fetchRooms().then((value) => {
-      console.log("/chat Data : ");
-      console.log(value.data);
-      setRooms(value.data);
-      setDidFetch(true);
+    socket.emit("roomJoin", {
+      data,
     });
   }, []);
 
+  useEffect(() => {
+    socket.on("recieve", (data) => {
+      setChats([...chats, data.text]);
+    });
+
+    console.log(chats);
+  });
   return (
-    <>
-      <div style={ChatWrapperStyle}>
-        <h1>ROOMS</h1>
-        {didFetch ? <Rooms data={rooms} /> : "LOADING"}
-      </div>
-    </>
+    <div style={ChatRoomWrapperStyle}>
+      <form onSubmit={handleSubmit}>
+        <h1>{data.R_Name}</h1>
+        <h3 style={{ margin: 0 }}>Author : {data.Author}</h3>
+        <div>{chats}</div>
+        <input type="text" onChange={handleInputChange}></input>
+        <button type="submit">SEND</button>
+      </form>
+    </div>
   );
 };
 
-const ChatWrapperStyle = {
+const ChatRoomWrapperStyle = {
   width: "100%",
   height: "100%",
 
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
-
   alignItems: "center",
   alignContent: "center",
-};
-
-const Rooms = (props) => {
-  return props.data.length === 0 ? (
-    <div>NO CHAT ROOMS</div>
-  ) : (
-    props.data.map((value, index) => {
-      return <RoomItem value={value} index={index} key={index} />;
-    })
-  );
-};
-
-const RoomStyle = {
-  width: "80%",
-  height: "100%",
-
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "space-evenly",
-
-  alignItems: "center",
-  alignContent: "center",
-
-  border: "1px solid black",
-};
-
-const RoomItem = (props) => {
-  const socket = io.connect("http://localhost:8080");
-
-  const handleRoomClick = (e, data) => {
-    e.preventDefault();
-    console.log(data);
-    socket.emit("roomJoin", {
-      data,
-    });
-  };
-
-  useEffect(() => {
-    socket.on("alert", (data) => {
-      console.log(data);
-    });
-  }, []);
-
-  return (
-    <div style={RoomStyle}>
-      {props.index + 1}
-      <h3 style={{ margin: 0 }}>Room Name : {props.value.R_Name}</h3>
-      <h3 style={{ margin: 0 }}>Author : {props.value.Author}</h3>
-      <button
-        onClick={(e) => {
-          handleRoomClick(e, props.value);
-        }}
-        style={{ margin: "10px 0px" }}>
-        JOIN
-      </button>
-    </div>
-  );
 };
 
 export default Chat;
