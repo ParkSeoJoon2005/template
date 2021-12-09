@@ -5,9 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "productionStart" : "node index.js",
     "serverStart": "nodemon index.js",
     "clientStart": "cd ../client && npm run start",
-    "bothStart": "concurrently \"npm run serverStart\" \"npm run clientStart\""
+    "bothStart": "concurrently \"npm run serverStart\" \"npm run clientStart\"",
+    "bothProductionStart": "concurrently \"npm run productionStart\" \"npm run productionStart\""
   },
   "author": "",
   "license": "ISC",
