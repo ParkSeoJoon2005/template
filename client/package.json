@@ -27,7 +27,11 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+<<<<<<< HEAD
     "buildStart": "export PORT=80&&serve -s build"
+=======
+    "productionStart" : "serve -s build"
+>>>>>>> 7757348bad7ab8ef8b42a6061a0399b40f66f226
   },
   "eslintConfig": {
     "extends": [
