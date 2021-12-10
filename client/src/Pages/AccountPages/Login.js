@@ -50,8 +50,7 @@ function LoginTitle() {
       onClick={handleLogoClick}
       onMouseOver={(e) => {
         e.target.style.cursor = "pointer";
-      }}
-    >
+      }}>
       LOGO
     </h1>
   );
@@ -67,7 +66,7 @@ function LoginForm(props) {
 
   const fetchLogin = async (loginData) => {
     const response = await axios.post(
-      "http://localhost:8080/api/login",
+      `http://${process.env.PRODUCTION_URL}:8080/api/login`,
       loginData,
       { headers: { "Access-Control-Allow-Origin": "*" } }
     );
@@ -139,14 +138,12 @@ function LoginForm(props) {
         <div style={(inputStyle, { display: "space-between" })}>
           <Link
             style={{ marginRight: "10px", textDecoration: "none" }}
-            to={"/register"}
-          >
+            to={"/register"}>
             회원가입
           </Link>
           <Link
             style={{ marginRight: "10px", textDecoration: "none" }}
-            to={"/accountSearch"}
-          >
+            to={"/accountSearch"}>
             아이디/비밀번호 찾기
           </Link>
           {!didLoginFailed ? null : (

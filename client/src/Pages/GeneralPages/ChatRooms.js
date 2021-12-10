@@ -28,7 +28,9 @@ const ChatWrapper = (props) => {
   const { userInfo, key } = cookies.get("loginInfo");
 
   const fetchRooms = async () => {
-    const res = await axios.get("http://localhost:8080/chat");
+    const res = await axios.get(
+      `http://${process.env.PRODUCTION_URL}:8080/chat`
+    );
     return res;
   };
 

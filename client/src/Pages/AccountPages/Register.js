@@ -42,7 +42,7 @@ const RegisterForm = (props) => {
 
   const fetchRegisterData = async (data) => {
     const response = await axios.post(
-      "http://localhost:8080/api/register",
+      `http://${process.env.PRODUCTION_URL}:8080/api/register`,
       data,
       {
         headers: { "Access-Control-Allow-Origin": "*" },
@@ -148,8 +148,7 @@ const RegisterForm = (props) => {
         <button
           type="submit"
           onClick={handleSubmit}
-          style={{ width: "30%", height: "50px" }}
-        >
+          style={{ width: "30%", height: "50px" }}>
           SUBMIT
         </button>
       </form>
