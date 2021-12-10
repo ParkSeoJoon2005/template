@@ -24,7 +24,7 @@ function Home(props) {
       ip: ip,
     };
     const response = await axios.post(
-      `http://${process.env.PRODUCTION_URL}:8080/api/ipAuth`,
+      `http://15.165.86.96:8080/api/ipAuth`,
       ipData,
       {
         headers: {

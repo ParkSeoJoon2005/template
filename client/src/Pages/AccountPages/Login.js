@@ -66,7 +66,7 @@ function LoginForm(props) {
 
   const fetchLogin = async (loginData) => {
     const response = await axios.post(
-      `http://${process.env.PRODUCTION_URL}:8080/api/login`,
+      `http://15.165.86.96:8080/api/login`,
       loginData,
       { headers: { "Access-Control-Allow-Origin": "*" } }
     );

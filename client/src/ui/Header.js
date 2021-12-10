@@ -342,7 +342,7 @@ function WebMenu(props) {
       userName: data.userName,
     };
     const response = await axios.post(
-      `http://${process.env.PRODUCTION_URL}:8080/api/authUser`,
+      `http://15.165.86.96:8080/api/authUser`,
       authData,
       { headers: { "Access-Control-Allow-Origin": "*" } }
     );

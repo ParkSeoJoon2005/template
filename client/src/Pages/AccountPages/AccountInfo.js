@@ -15,7 +15,7 @@ const AccountInfoWrapper = () => {
 
   const fetchAccountInfo = async (data) => {
     const response = await axios.post(
-      `http://${process.env.PRODUCTION_URL}:8080/api/accountInfo`,
+      `http://15.165.86.96:8080/api/accountInfo`,
       data,
       {
         headers: { "Access-Control-Allow-Origin": "*" },
