@@ -17,4 +17,19 @@ router.get("/", (req, res) => {
   });
 });
 
+router.post("/create", (req, res) => {
+  const data = req.body;
+  db.query(
+    `INSERT INTO chat(R_Name,Author,ChatLog) VALUES("${data.R_Name}","${data.Author}","${data.ChatLog}");`,
+    (err, results) => {
+      if (err) throw err;
+      const response = {
+        status: true,
+        msg: "Hurry! Go Chat!",
+      };
+      res.json(response);
+    }
+  );
+});
+
 module.exports = router;
