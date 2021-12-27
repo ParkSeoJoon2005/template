@@ -28,7 +28,7 @@ const ChatWrapper = (props) => {
   const { userInfo, key } = cookies.get("loginInfo");
 
   const fetchRooms = async () => {
-    const res = await axios.get("http://localhost:8080/chat");
+    const res = await axios.get(`${process.env.REACT_APP_TEST_URL}/chat`);
     return res;
   };
 
@@ -92,7 +92,8 @@ const RoomItem = (props) => {
         onClick={(e) => {
           handleRoomClick(e, props.value);
         }}
-        style={{ margin: "10px 0px" }}>
+        style={{ margin: "10px 0px" }}
+      >
         JOIN
       </button>
     </div>

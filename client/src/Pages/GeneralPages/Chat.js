@@ -8,8 +8,6 @@ import Cookies from "universal-cookie";
 import { io } from "socket.io-client";
 let socket = io(process.env.REACT_APP_TEST_URL);
 
-console.log(process.env.REACT_APP_TEST_URL);
-
 function Chat() {
   const cookies = new Cookies();
   const cookieData = cookies.get("loginInfo");
@@ -53,7 +51,7 @@ const ChatRoomWrapper = (props) => {
       data,
     });
     if (!socket.connected) {
-      socket = io(process.env.TEST_URL);
+      socket = io(process.env.REACT_APP_TEST_URL);
       socket.emit("roomJoin", {
         data,
       });
