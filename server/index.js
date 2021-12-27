@@ -47,6 +47,9 @@ io.on("connection", (sockets) => {
       text: payload.text,
     });
   });
+  sockets.on("disconnect", (a) => {
+    console.log(`${a} disconnected!`);
+  });
 });
 
 server.listen(port, () => {
