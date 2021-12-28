@@ -42,7 +42,7 @@ const RegisterForm = (props) => {
 
   const fetchRegisterData = async (data) => {
     const response = await axios.post(
-      "http://localhost:8080/api/register",
+      `${process.env.REACT_APP_TEST_URL}/api/register`,
       data,
       {
         headers: { "Access-Control-Allow-Origin": "*" },

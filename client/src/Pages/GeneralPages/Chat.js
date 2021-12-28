@@ -6,7 +6,7 @@ import { useLocation, useHistory } from "react-router-dom";
 import Cookies from "universal-cookie";
 
 import { io } from "socket.io-client";
-const socket = io("http://localhost:8080");
+let socket = io(process.env.REACT_APP_TEST_URL);
 
 function Chat() {
   const cookies = new Cookies();
@@ -50,6 +50,18 @@ const ChatRoomWrapper = (props) => {
     socket.emit("roomJoin", {
       data,
     });
+    if (!socket.connected) {
+      socket = io(process.env.REACT_APP_TEST_URL);
+      socket.emit("roomJoin", {
+        data,
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      socket.disconnect();
+    };
   }, []);
 
   useEffect(() => {

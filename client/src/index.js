@@ -12,6 +12,8 @@ import { composeWithDevTools } from "redux-devtools-extension";
 
 const store = createStore(reducers, composeWithDevTools());
 
+require("dotenv").config();
+
 ReactDOM.render(
   <BrowserRouter>
     <Provider store={store}>
