@@ -6,11 +6,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "devServerStart": "nodemon index.js",
-    "serverStart":"node index.js",
+    "serverStart": "node index.js",
     "clientStart": "cd ../client && npm run start",
-    "clientProductionStart" : "cd ../client && npm run buildStart",
-    "bothStart": "concurrently \"npm run serverStart\" \"npm run clientStart\"",
-    "bothRouterStart":"concurrently \"npm run serverStart\" \"npm run clientProductionStart\""
+    "clientProductionStart": "cd ../client && npm run buildStart",
+    "bothStart": "concurrently \"npm run devServerStart\" \"npm run clientStart\"",
+    "bothRouterStart": "concurrently \"npm run serverStart\" \"npm run clientProductionStart\""
   },
   "author": "",
   "license": "ISC",

@@ -26,6 +26,7 @@ router.post("/create", (req, res) => {
       const response = {
         status: true,
         msg: "Hurry! Go Chat!",
+        roomNum: results.insertId,
       };
       res.json(response);
     }

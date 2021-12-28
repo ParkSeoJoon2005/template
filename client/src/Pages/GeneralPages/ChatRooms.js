@@ -6,6 +6,11 @@ import Contents from "../../ui/Contents";
 import Cookies from "universal-cookie";
 import { useHistory } from "react-router-dom";
 
+import Modal from "@material-ui/core/Modal";
+
+import { IconContext } from "react-icons";
+import { AiOutlinePlus } from "react-icons/ai";
+
 const ChatRooms = (props) => {
   const cookies = new Cookies();
   const cookieData = cookies.get("loginInfo");
@@ -23,6 +28,7 @@ const ChatRooms = (props) => {
 const ChatWrapper = (props) => {
   const [didFetch, setDidFetch] = useState(false);
   const [rooms, setRooms] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const cookies = new Cookies();
   const { userInfo, key } = cookies.get("loginInfo");
@@ -30,6 +36,10 @@ const ChatWrapper = (props) => {
   const fetchRooms = async () => {
     const res = await axios.get("http://localhost:8080/chat");
     return res;
+  };
+
+  const handleModalOpen = () => {
+    setModalOpen(!modalOpen);
   };
 
   useEffect(() => {
@@ -44,11 +54,32 @@ const ChatWrapper = (props) => {
   return (
     <>
       <div style={ChatWrapperStyle}>
-        <h1>ROOMS</h1>
+        <div style={{ width: "80%", textAlign: "center" }}>
+          <IconContext.Provider value={{ color: "blue", size: "2em" }}>
+            <AiOutlinePlus
+              style={{ float: "right" }}
+              onClick={handleModalOpen}
+            />
+          </IconContext.Provider>
+
+          <Modal open={modalOpen} onClose={handleModalOpen}>
+            <div style={ModalStyle}>Helloooooo</div>
+          </Modal>
+          <h1>ROOMS</h1>
+        </div>
         {didFetch ? <Rooms data={rooms} /> : "LOADING"}
       </div>
     </>
   );
+};
+
+const ModalStyle = {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  alignContent: "center",
+
+  backgroundColor: "white",
 };
 
 const ChatWrapperStyle = {
