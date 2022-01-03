@@ -11,15 +11,18 @@ router.use(express.urlencoded({ extended: false }));
 router.use(cors());
 
 router.get("/", (req, res) => {
-  db.query(`SELECT * FROM chat`, (err, results) => {
+  const conn = db.connectDB();
+  conn.query(`SELECT * FROM chat`, (err, results) => {
     if (err) throw err;
     results.length !== 0 ? res.json(results) : res.json([]);
   });
+  db.disconnectDB(conn);
 });
 
 router.post("/create", (req, res) => {
+  const conn = db.connectDB();
   const data = req.body;
-  db.query(
+  conn.query(
     `INSERT INTO chat(R_Name,Author,ChatLog) VALUES("${data.R_Name}","${data.Author}","${data.ChatLog}");`,
     (err, results) => {
       if (err) throw err;
@@ -31,6 +34,7 @@ router.post("/create", (req, res) => {
       res.json(response);
     }
   );
+  db.disconnectDB(conn);
 });
 
 module.exports = router;
