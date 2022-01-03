@@ -19,31 +19,37 @@ router.post("/ipAuth", (req, res) => {
 
 // 유저 유효성 처리
 router.post("/authUser", (req, res) => {
-  db.query(`SELECT * FROM user WHERE no='${req.body.key}'`, (err, results) => {
-    if (err) throw err;
-    if (results.length === 1) {
-      const authUserRes = {
-        isValid: true,
-      };
-      console.log(
-        `/authUser Request Succeed with : ${JSON.stringify(req.body)}`
-      );
-      res.json(authUserRes);
-    } else {
-      const authUserFailedRes = {
-        isValid: false,
-      };
-      console.log(
-        `/authUser Request Failed with : ${JSON.stringify(req.body)}`
-      );
-      res.json(authUserFailedRes);
+  const conn = db.connectDB();
+  conn.query(
+    `SELECT * FROM user WHERE no='${req.body.key}'`,
+    (err, results) => {
+      if (err) throw err;
+      if (results.length === 1) {
+        const authUserRes = {
+          isValid: true,
+        };
+        console.log(
+          `/authUser Request Succeed with : ${JSON.stringify(req.body)}`
+        );
+        res.json(authUserRes);
+      } else {
+        const authUserFailedRes = {
+          isValid: false,
+        };
+        console.log(
+          `/authUser Request Failed with : ${JSON.stringify(req.body)}`
+        );
+        res.json(authUserFailedRes);
+      }
     }
-  });
+  );
+  db.disconnectDB(conn);
 });
 
 //로그인 요청 처리
 router.post("/login", (req, res) => {
-  db.query(
+  const conn = db.connectDB();
+  conn.query(
     `SELECT * FROM user WHERE id='${req.body.id}' AND pw='${req.body.password}'`,
     (err, results) => {
       if (err) throw err;
@@ -68,12 +74,13 @@ router.post("/login", (req, res) => {
       }
     }
   );
+  db.disconnectDB(conn);
 });
 
 //계정 생성 처리
 router.post("/register", (req, res) => {
-  console.log(req.body);
-  db.query(
+  const conn = db.connectDB();
+  conn.query(
     `SELECT * FROM user WHERE id='${req.body.id}' OR name='${req.body.name}'`,
     (err, results) => {
       if (err) throw err;
@@ -84,7 +91,7 @@ router.post("/register", (req, res) => {
         };
         res.json(createUserFailed);
       } else {
-        db.query(
+        conn.query(
           `INSERT INTO user (id,pw,birthDay,phone,email,name) VALUES ('${req.body.id}','${req.body.password}','${req.body.birthDay}','${req.body.phone}','${req.body.email}','${req.body.name}')`,
           (err, results) => {
             console.log(results);
@@ -99,10 +106,12 @@ router.post("/register", (req, res) => {
       }
     }
   );
+  db.disconnectDB(conn);
 });
 
 router.post("/accountInfo", (req, res) => {
-  db.query(`SELECT * FROM user WHERE no=${req.body.key}`, (err, results) => {
+  const conn = db.connectDB();
+  conn.query(`SELECT * FROM user WHERE no=${req.body.key}`, (err, results) => {
     if (err) throw err;
     const accountInfoRes = {
       id: results[0].id,
@@ -114,15 +123,16 @@ router.post("/accountInfo", (req, res) => {
     };
     res.json(accountInfoRes);
   });
+  db.disconnectDB(conn);
 });
 
 router.post("/test", (req, res) => {
-  console.log(req.body);
-  db.query(`SELECT * FROM user WHERE no=${req.body.no}`, (err, results) => {
+  const conn = db.connectDB();
+  conn.query(`SELECT * FROM user WHERE no=${req.body.no}`, (err, results) => {
     if (err) throw err;
     console.log(results);
   });
-  db.end();
+  db.disconnectDB(conn);
 });
 
 module.exports = router;
