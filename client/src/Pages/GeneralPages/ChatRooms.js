@@ -29,9 +29,12 @@ const ChatWrapper = (props) => {
   const [didFetch, setDidFetch] = useState(false);
   const [rooms, setRooms] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
+  const [roomName, setRoomName] = useState("");
 
   const cookies = new Cookies();
   const { userInfo, key } = cookies.get("loginInfo");
+
+  const history = useHistory();
 
   const fetchRooms = async () => {
     const res = await axios.get(`${process.env.REACT_APP_TEST_URL}/chat`);
@@ -51,6 +54,33 @@ const ChatWrapper = (props) => {
     });
   }, []);
 
+  const handleRoomNameChange = (e) => {
+    setRoomName(e.target.value);
+  };
+
+  const handleRoomCreateSubmit = (e) => {
+    e.preventDefault();
+    const data = {
+      R_Name: roomName,
+      Author: userInfo.name,
+      ChatLog: [],
+    };
+    axios
+      .post(`${process.env.REACT_APP_TEST_URL}/chat/create`, data, {
+        headers: { "Access-Control-Allow-Origin": "*" },
+      })
+      .then((data) => {
+        if (data.status) {
+          console.log(data);
+          setModalOpen(false);
+          // refreshRooms();
+        } else {
+          alert(data.msg);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <>
       <div style={ChatWrapperStyle}>
@@ -62,8 +92,30 @@ const ChatWrapper = (props) => {
             />
           </IconContext.Provider>
 
-          <Modal open={modalOpen} onClose={handleModalOpen}>
-            <div style={ModalStyle}>Helloooooo</div>
+          <Modal
+            open={modalOpen}
+            onClose={handleModalOpen}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <div style={ModalWrapperStyle}>
+              <h1>CREATE ROOM</h1>
+              <form onSubmit={handleRoomCreateSubmit} style={null}>
+                <input
+                  type="text"
+                  placeholder="ENTER YOUR ROOM NAME!"
+                  style={{ width: "50%", height: "10%", fontSize: "20px" }}
+                  onChange={handleRoomNameChange}
+                  value={roomName}
+                />
+                <button type="submit" style={{ width: "50px", height: "30px" }}>
+                  START!
+                </button>
+              </form>
+            </div>
           </Modal>
           <h1>ROOMS</h1>
         </div>
@@ -73,13 +125,18 @@ const ChatWrapper = (props) => {
   );
 };
 
-const ModalStyle = {
+const ModalWrapperStyle = {
   display: "flex",
+  flexDirection: "column",
   justifyContent: "center",
   alignItems: "center",
   alignContent: "center",
+  textAlign: "center",
 
   backgroundColor: "white",
+
+  width: "80%",
+  height: "80%",
 };
 
 const ChatWrapperStyle = {
