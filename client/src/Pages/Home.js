@@ -55,7 +55,11 @@ function Home(props) {
       <Contents
         elements={
           <>
-            <Jumbo path={"./Images/JumboBg.jpg"} content={"Jumbo Contents"} />
+            <Jumbo
+              path={"./Images/JumboBg.jpg"}
+              content={"Jumbo Contents"}
+              title={"Jumbo Title"}
+            />
             <div style={{ height: "800px", backgroundColor: "black" }}></div>
           </>
         }
